@@ -1,0 +1,5 @@
+Flask==2.0.3
+pycryptodome==3.23.0
+tenseal==0.3.16
+werkzeug==2.0.3
+numpy==1.23.1 
