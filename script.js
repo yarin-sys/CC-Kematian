@@ -7,6 +7,8 @@ document.getElementById('votingForm').addEventListener('submit', function(event)
     const vote = selectedCandidate.value;
     
     // Send encrypted vote to backend (No need for encryption in frontend)
+    // As noted before, this comment is misleading given the current script.js implementation.
+    // The vote is sent as plain text.
     fetch('http://127.0.0.1:5000/vote', {  // Use the correct backend URL for WSL
       method: 'POST',
       headers: {
