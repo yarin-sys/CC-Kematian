@@ -2,28 +2,41 @@ document.getElementById('votingForm').addEventListener('submit', function(event)
   event.preventDefault();
 
   const selectedCandidate = document.querySelector('input[name="candidate"]:checked');
-  
+  const responseMessageDiv = document.getElementById('responseMessage');
+  const encryptedVoteDisplayDiv = document.getElementById('encryptedVoteDisplay');
+
   if (selectedCandidate) {
     const vote = selectedCandidate.value;
     
-    // Send encrypted vote to backend (No need for encryption in frontend)
-    // As noted before, this comment is misleading given the current script.js implementation.
-    // The vote is sent as plain text.
-    fetch('http://127.0.0.1:5000/vote', {  // Use the correct backend URL for WSL
+    // Simulate encryption for display purposes
+    // In a real FHE scenario, a client-side FHE library would encrypt the vote here.
+    const simulatedEncryptedVote = btoa(vote); // Base64 encode for a visual 'encrypted' string
+
+    encryptedVoteDisplayDiv.innerText = `Sending Encrypted Vote: ${simulatedEncryptedVote}`;
+    responseMessageDiv.innerText = 'Submitting vote...';
+
+    // Send the simulated encrypted vote to backend
+    fetch('http://127.0.0.1:5000/vote', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ vote: vote })  // Send the vote directly to the backend
+      // Send the base64 encoded string. The backend will "decrypt" it using TenSEAL.
+      body: JSON.stringify({ vote: simulatedEncryptedVote })
     })
     .then(response => response.json())
     .then(data => {
-      document.getElementById('responseMessage').innerText = 'Vote submitted successfully!';
+      responseMessageDiv.innerText = data.message;
+      encryptedVoteDisplayDiv.innerText = ''; // Clear display after submission
     })
     .catch(error => {
-      document.getElementById('responseMessage').innerText = 'Error submitting vote. Please try again.';
+      console.error('Error:', error);
+      responseMessageDiv.innerText = 'Error submitting vote. Please try again.';
+      encryptedVoteDisplayDiv.innerText = '';
     });
   } else {
     alert('Please select a candidate before submitting.');
+    encryptedVoteDisplayDiv.innerText = '';
+    responseMessageDiv.innerText = '';
   }
 });
