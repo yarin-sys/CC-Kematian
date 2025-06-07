@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_file
 import tenseal as ts
 import os
-import base64 # Import base64 for decoding the simulated encrypted vote
+import base64
 
 app = Flask(__name__)
 
@@ -28,6 +28,7 @@ def decrypt_vote_tenseal(encrypted_vote_ts):
 @app.route("/")
 def serve_voting_page():
     # Construct the path to your votingpage.html
+    # Assumes votingpage.html is in the parent directory of the backend folder
     return send_file(os.path.join(os.path.dirname(__file__), '..', 'votingpage.html'))
 
 @app.route("/vote", methods=["POST"])
