@@ -1,0 +1,23 @@
+# Ignore Python virtual environments
+backend/myenv/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.so
+
+# VS Code settings
+.vscode/
+
+
+# Mac/Windows system files
+.DS_Store
+Thumbs.db
+
+# Log and temp files
+*.log
+*.tmp
+
+# Ignore virtual environment leftovers
+env/
+venv/
