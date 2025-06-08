@@ -37,7 +37,9 @@ SecureVote is a private cloud-based voting web application that demonstrates the
 
 ## Disclaimer
 To run this project, you must use Python 3.10, as TenSEAL is only compatible with that version.  
+
 Python 3.11 or above is not supported by TenSEAL, and attempting to install or run TenSEAL with newer Python versions will result in compatibility errors.  
+
 Additionally, do not run this project using PowerShell — it is recommended to use WSL (Windows Subsystem for Linux), preferably Debian. Some dependencies (e.g., NumPy for Linux) may not function correctly in PowerShell or Command Prompt environments.
 
 ## Environment Setup
