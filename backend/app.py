@@ -1,60 +1,45 @@
-from flask import Flask, request, jsonify, send_file
-import tenseal as ts
-import os
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 import base64
 
 app = Flask(__name__)
+CORS(app)
 
-# Initialize TenSEAL context (CKKS scheme)
-context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 60])
-context.generate_galois_keys()
-
-encrypted_votes_storage = []
-votes = {"1": 0, "2": 0}
-
-def encrypt_vote_tenseal(vote_value):
-    return ts.ckks_vector(context, [float(vote_value)])
-
-def decrypt_vote_tenseal(encrypted_vote_ts):
-    return str(int(round(encrypted_vote_ts.decrypt()[0])))
+votes = {
+    "Candidate A": 0,
+    "Candidate B": 0
+}
 
 @app.route("/")
-def serve_voting_page():
-    return send_file(os.path.join(os.path.dirname(__file__), '..', 'votingpage.html'))
+def index():
+    return render_template("votingpage.html")
 
 @app.route("/vote", methods=["POST"])
 def vote():
-    data = request.get_json()
-    simulated_encrypted_vote_b64 = data.get("vote")
-    
-    if simulated_encrypted_vote_b64:
-        try:
-            plain_vote_str = base64.b64decode(simulated_encrypted_vote_b64).decode('utf-8')
-            plain_vote_int = int(plain_vote_str)
+    try:
+        encrypted_vote = request.json.get("encrypted_vote")
+        if not encrypted_vote:
+            return jsonify({"message": "No vote received"}), 400
 
-            encrypted_vote_ts = encrypt_vote_tenseal(plain_vote_int)
-            encrypted_votes_storage.append(encrypted_vote_ts.serialize())
+        # Simulated decryption (base64 decode)
+        decoded_bytes = base64.b64decode(encrypted_vote)
+        plain_vote_str = decoded_bytes.decode("utf-8")
 
-            decrypted_candidate = decrypt_vote_tenseal(encrypted_vote_ts)
+        if plain_vote_str == "Candidate A":
+            votes["Candidate A"] += 1
+        elif plain_vote_str == "Candidate B":
+            votes["Candidate B"] += 1
+        else:
+            return jsonify({"message": "Invalid vote value"}), 400
 
-            if decrypted_candidate in votes:
-                votes[decrypted_candidate] += 1
-                return jsonify({
-                    "message": f"Vote for Candidate {decrypted_candidate} counted successfully!",
-                    "tenseal_encrypted_hex": encrypted_vote_ts.serialize().hex()[:100] + "..."
-                }), 200
-            else:
-                return jsonify({"message": "Invalid decrypted vote"}), 400
+        return jsonify({"message": f"Vote for {plain_vote_str} recorded successfully!"}), 200
 
-        except Exception as e:
-            print(f"Error processing vote: {e}")
-            return jsonify({"message": "Error processing vote"}), 400
+    except Exception as e:
+        return jsonify({"message": f"Error processing vote: {str(e)}"}), 500
 
-    return jsonify({"message": "No vote data provided"}), 400
-
-@app.route("/result", methods=["GET"])
-def result():
+@app.route("/results", methods=["GET"])
+def get_results():
     return jsonify(votes)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)

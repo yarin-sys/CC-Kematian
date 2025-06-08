@@ -1,4 +1,5 @@
 Flask==2.0.3
+Flask-CORS==4.0.0
 pycryptodome==3.23.0
 tenseal==0.3.16
 werkzeug==2.0.3
