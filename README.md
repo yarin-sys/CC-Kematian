@@ -49,12 +49,12 @@ This project was developed and tested using **WSL (Windows Subsystem for Linux)*
 1. **Clone the repository**  
    ```bash
    git clone https://github.com/yarin-sys/CC-Kematian
-   cd CC-Kematian/backend
    ```
 
 2. **Launch WSL (Debian)**  
    ```bash
    wsl -d Debian
+   cd CC-Kematian/backend
    ```
 
 3. **Ensure Python 3.10 is installed**  
