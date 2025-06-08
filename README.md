@@ -1,3 +1,4 @@
+
 # SecureVote
 
 SecureVote is a private cloud-based voting web application that demonstrates the use of Fully Homomorphic Encryption (FHE) concepts. This application allows users to securely vote for candidates with simulated encryption, view encrypted submissions, and display real-time results through a modern web interface.
@@ -41,38 +42,44 @@ Additionally, do not run this project using PowerShell — it is recommended to 
 
 ## Environment Setup
 
-This project was executed within WSL using the Debian Linux distribution
+This project was developed and tested using **WSL (Windows Subsystem for Linux)** with the **Debian Linux** distribution. Please follow the steps below to set up your environment:
 
-1. Clone the repository:
+1. **Clone the repository**  
    ```bash
-   https://github.com/yarin-sys/CC-Kematian
+   git clone https://github.com/yarin-sys/CC-Kematian
+   cd CC-Kematian/backend
    ```
-   
-2. Activate WSL (Debian)
-    ```bash
-    wsl -d Debian
-    cd backend
-    ```
-3. Make sure u have Python 3.10 installed
-    ```bash
-    python3.10 --version
-    ```
-  
-4. Activate Python Virtual Environment
-    ```bash
-    python3.10 -m venv myenv
-    source myenv/bin/activate
-    ```
 
-5. Install Project Dependencies (It must be inside the virtual enviroment)
-    ```bash
-    pip install -r requirements.txt
-    ```
-7. Run (It must be inside the virtual enviroment)
-    ```bash
-    python app.py
-    ```
-Copy the link from the terminal (e.g. `http://127.0.0.1:5000/`) and open it in your browser.
+2. **Launch WSL (Debian)**  
+   ```bash
+   wsl -d Debian
+   ```
+
+3. **Ensure Python 3.10 is installed**  
+   TenSEAL only supports Python 3.10.  
+   Check your version with:
+   ```bash
+   python3.10 --version
+   ```
+
+4. **Create and activate a virtual environment**  
+   ```bash
+   python3.10 -m venv myenv
+   source myenv/bin/activate
+   ```
+
+5. **Install project dependencies (within the virtual environment)**  
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+6. **Run the application (still inside the virtual environment)**  
+   ```bash
+   python app.py
+   ```
+
+7. **Access the app**  
+   After running, open the provided link (e.g., `http://127.0.0.1:5000/`) in your browser.
 
 ## Context
 
@@ -81,4 +88,3 @@ This project was developed for the course *Komputasi Awan* at Universitas Gadjah
 ## License
 
 This project is intended for academic use only and is not licensed for commercial use.
-
