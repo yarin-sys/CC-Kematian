@@ -33,7 +33,7 @@ SecureVote is a private cloud-based voting web application that demonstrates the
 - **Frontend**: HTML, CSS, JavaScript
 - **Template Engine**: Jinja2
 - **System**: WSL Debian (Python 3.10+)
-- **Cloud**: AWS
+- **Cloud**: AWS and tmux to make the application keep running in the background
 
 ## Disclaimer
 To run this project, you must use Python 3.10, as TenSEAL is only compatible with that version.  
